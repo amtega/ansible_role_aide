@@ -1,0 +1,22 @@
+---
+# Role dependencies
+
+galaxy_info:
+  role_name: role
+  author: author name
+  description: role description
+  company: AMTEGA - Xunta de Galicia
+  license: GPLv3 or EUPL
+  min_ansible_version: 2.9
+  platforms:
+    - name: EL
+      versions:
+        - 6
+        - 7
+    - name: Fedora
+      versions:
+        - 29
+        - 30
+  galaxy_tags: []
+
+dependencies: []
