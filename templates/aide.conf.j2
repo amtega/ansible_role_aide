@@ -13,7 +13,7 @@ gzip_dbout={{ aide_db_compress }}
 verbose={{ aide_verbosity }}
 
 report_url=file:@@{LOGDIR}/{{ aide_log_file }}
-report_url=stdout
+report_url=std{{ filesystem_acl.regexp }}out
 
 # Define custom rule
 {% for custom_rule in aide_custom_rules %}
