@@ -53,29 +53,8 @@ aide_cron_user: root
 # E:             Empty group
 # >:             Growing logfile p+u+g+i+n+S+acl+selinux+xattrs
 
-aide_custom_rules:
-  - name: FIPSR
-    pattern: 'p+i+n+u+g+s+m+c+acl+selinux+xattrs+sha256'
-  - name: ALLXTRAHASHES
-    pattern: 'sha1+rmd160+sha256+sha512+tiger'
-  - name: EVERYTHING
-    pattern: 'R+ALLXTRAHASHES'
-  - name: NORMAL
-    pattern: sha256
-  - name: DIR
-    pattern: 'p+i+n+u+g+acl+selinux+xattrs'
-  - name: PERMS
-    pattern: 'p+u+g+acl+selinux+xattrs'
-  - name: STATIC
-    pattern: 'p+u+g+acl+selinux+xattrs+i+n+b+c+ftype'
-  - name: LOG
-    pattern: 'p+u+g+n+acl+selinux+ftype'
-  - name: CONTENT
-    pattern: 'sha256+ftype'
-  - name: CONTENT_EX
-    pattern: 'sha256+ftype+p+u+g+n+acl+selinux+xattrs'
-  - name: DATAONLY
-    pattern: 'p+n+u+g+s+acl+selinux+xattrs+sha256'
+aide_custom_rules: []
+
 
 # Array aide_acls decide what directories/files you want in the database. Aide
 # uses a first match system. Put file specific instructions before generic
@@ -91,36 +70,4 @@ aide_custom_rules:
 #   - regexp: /proc
 #     rule: absent
 
-aide_acls:
-  - regexp: '/boot/'
-    rule: CONTENT_EX
-  - regexp: '/bin/'
-    rule: CONTENT_EX
-  - regexp: '/sbin/'
-    rule: CONTENT_EX
-  - regexp: '/lib/'
-    rule: CONTENT_EX
-  - regexp: '/lib64/'
-    rule: CONTENT_EX
-  - regexp: '/opt/'
-    rule: CONTENT
-  - regexp: '/proc/'
-    rule: 'absent'
-  - regexp: '/root/\..*'
-    rule: PERMS
-  - regexp: '/root/'
-    rule: CONTENT_EX
-  - regexp: '/usr/src/'
-    rule: 'absent'
-  - regexp: '/usr/tmp/'
-    rule: 'absent'
-  - regexp: '/usr/'
-    rule: CONTENT_EX
-  - regexp: '/etc/'
-    rule: CONTENT_EX
-  - regexp: '/var/log/'
-    rule: 'absent'
-  - regexp: '/var/run'
-    rule: 'absent'
-  - regexp: '/var/'
-    rule: 'absent'
+aide_acls: []

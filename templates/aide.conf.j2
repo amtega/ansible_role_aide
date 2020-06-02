@@ -13,18 +13,18 @@ gzip_dbout={{ aide_db_compress }}
 verbose={{ aide_verbosity }}
 
 report_url=file:@@{LOGDIR}/{{ aide_log_file }}
-report_url=std{{ filesystem_acl.regexp }}out
+report_url=stdout
 
 # Define custom rule
 {% for custom_rule in aide_custom_rules %}
-{{ custom_rule.name }}  {{ custom_rule.pattern }}
+{{ custom_rule.name }} = {{ custom_rule.pattern }}
 {% endfor %}
 
 # Define database files inclusion acls
 {% for filesystem_acl in aide_acls %}
-{% if filesystem_acl.rule = 'absent' %}
+{% if filesystem_acl.rule == 'absent' %}
 !{{ filesystem_acl.regexp }}
 {% else %}
-{{ filesystem_acl.regexp }} = {{ filesystem_acl.rule }}
+{{ filesystem_acl.regexp }}  {{ filesystem_acl.rule }}
 {% endif %}
 {% endfor %}
