@@ -27,7 +27,7 @@
             day: "{{ aide_cron_freq.day }}"
             month: "{{ aide_cron_freq.month }}"
             weekday: "{{ aide_cron_freq.weekday }}"
-            user: "{{ aide_cron_user}}"
+            user: "{{ aide_cron_user }}"
             job: "{{ aide_bin }} --check"
             cron_file: "{{ aide_cron_file }}"
       when: aide_config_result.changed
