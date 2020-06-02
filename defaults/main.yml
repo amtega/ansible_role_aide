@@ -1,2 +1,73 @@
 ---
 # Role default lower priority variables
+# Define Aide verbosity
+aide_verbosity: 5
+
+# Aide cron frecuency params:
+aide_cron_freq:
+  min: 0
+  hour: 5
+  day: '*'
+  month: '*'
+  weekday: '*'
+
+aide_cron_user: root
+
+# Array to define AIDE custom rules. It must be a combination of default rules.
+# Preexistent custom rules may also be used to define a new custom rule.
+# Every element is a dictioanri with 2 entries: name of custom rule and pattern.
+# Example:
+#
+# aide_custom_rules:
+#   - name: CUSTOMCHECK
+#     pattern: 'p+i+n+u+g+s+m+c+acl+selinux+xattrs+sha256'
+#
+# These are the default rules.
+#
+# p:      permissions
+# i:      inode:
+# n:      number of links
+# u:      user
+# g:      group
+# s:      size
+# b:      block count
+# m:      mtime
+# a:      atime
+# c:      ctime
+# S:      check for growing size
+# acl:           Access Control Lists
+# selinux        SELinux security context
+# xattrs:        Extended file attributes
+# md5:    md5 checksum
+# sha1:   sha1 checksum
+# sha256:        sha256 checksum
+# sha512:        sha512 checksum
+# rmd160: rmd160 checksum
+# tiger:  tiger checksum
+# haval:  haval checksum (MHASH only)
+# gost:   gost checksum (MHASH only)
+# crc32:  crc32 checksum (MHASH only)
+# whirlpool:     whirlpool checksum (MHASH only)
+# R:             p+i+n+u+g+s+m+c+acl+selinux+xattrs+md5
+# L:             p+i+n+u+g+acl+selinux+xattrs
+# E:             Empty group
+# >:             Growing logfile p+u+g+i+n+S+acl+selinux+xattrs
+
+aide_custom_rules: []
+
+
+# Array aide_acls decide what directories/files you want in the database. Aide
+# uses a first match system. Put file specific instructions before generic
+# matches. e.g. Put file matches before directories.
+# Every element is a dictionary with 2 entries: regexp of dest to check in filesystem
+# and rules to apply. If rule has 'absent' value, the rol asume you want exclude that regexp from checks.
+# Regexp incorpore a ^ implicit on first character.
+# Example:
+#
+# aide_acls:
+#   - regexp: /bin
+#     rule: CONTENT_EX
+#   - regexp: /proc
+#     rule: absent
+
+aide_acls: []

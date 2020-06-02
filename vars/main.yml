@@ -1,2 +1,20 @@
 ---
 # Role variables
+# AIDE executable file
+aide_bin: /usr/sbin/aide
+
+# Configuration file
+aide_conf_file: /etc/aide.conf
+
+# AIDE DB filesystem vars
+aide_db_dir: /var/lib/aide
+aide_db_write: aide.db.new.gz
+aide_db_read: aide.db.gz
+aide_db_compress: 'yes'
+
+# AIDE log filesystem vars
+aide_log_dir: /var/log/aide
+aide_log_file: aide.log
+
+# AIDE cron filesystem vars
+aide_cron_file: cron_aide
