@@ -1,11 +1,12 @@
 ---
 # Role tasks
+
 - block:
-    - name: Configure Aide
+    - name: Configure AIDE
       template:
         src: aide.conf.j2
-        dest: "{{ aide_conf_file }}"
-      register: aide_check_create_conf
+        dest: "{{ aide_conf_path }}"
+      register: aide_config_result
 
     - block:
         - name: Inicialize AIDE
@@ -18,7 +19,7 @@
             remote_src: yes
             backup: yes
 
-        - name: Include cron file under /etc/cron.d
+        - name: Setup cron file under /etc/cron.d
           cron:
             name: AIDE check
             minute: "{{ aide_cron_freq.min }}"
@@ -26,11 +27,10 @@
             day: "{{ aide_cron_freq.day }}"
             month: "{{ aide_cron_freq.month }}"
             weekday: "{{ aide_cron_freq.weekday }}"
-            user: "{{ aide_cron_user}}"
+            user: "{{ aide_cron_user }}"
             job: "{{ aide_bin }} --check"
             cron_file: "{{ aide_cron_file }}"
-
-      when: aide_check_create_conf.changed
+      when: aide_config_result.changed
 
   tags:
     - role::aide

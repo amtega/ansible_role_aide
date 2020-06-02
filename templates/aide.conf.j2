@@ -3,9 +3,7 @@
 @@define DBDIR {{ aide_db_dir }}
 @@define LOGDIR {{ aide_log_dir }}
 
-
 database=file:@@{DBDIR}/{{ aide_db_read }}
-
 database_out=file:@@{DBDIR}/{{ aide_db_write }}
 
 gzip_dbout={{ aide_db_compress }}
@@ -15,12 +13,14 @@ verbose={{ aide_verbosity }}
 report_url=file:@@{LOGDIR}/{{ aide_log_file }}
 report_url=stdout
 
-# Define custom rule
+# Custom rules
+
 {% for custom_rule in aide_custom_rules %}
 {{ custom_rule.name }} = {{ custom_rule.pattern }}
 {% endfor %}
 
-# Define database files inclusion acls
+# Database files inclusion acls
+
 {% for filesystem_acl in aide_acls %}
 {% if filesystem_acl.rule == 'absent' %}
 !{{ filesystem_acl.regexp }}

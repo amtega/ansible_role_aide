@@ -1,0 +1,29 @@
+---
+
+- name: Converge
+  hosts: molecule_hosts
+  gather_facts: no
+  roles:
+    - amtega.aide
+  tasks:
+    - name: Read AIDE config
+      command: "{{ aide_bin }} -D"
+      changed_when: false
+      register: aide_read_config_result
+
+    - name: Check read database
+      stat:
+        path: "{{ aide_db_dir }}/{{ aide_db_read }}"
+      register: aide_read_database_result
+
+    - name: Check cron file
+      stat:
+        path: "/etc/cron.d/{{ aide_cron_file }}"
+      register: aide_read_cron_result
+
+    - name: Assert all post conditions
+      assert:
+        that:
+          - aide_read_config_result.stdout is not search("Configuration error")
+          - aide_read_database_result.stat.exists
+          - aide_read_cron_result.stat.exists

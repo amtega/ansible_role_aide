@@ -4,7 +4,7 @@
 galaxy_info:
   role_name: aide
   author: José Enrique Mourón Regueira
-  description: install and configure AIDE (Advanced Intrusion Detection Environment)
+  description: Setup AIDE (Advanced Intrusion Detection Environment)
   company: AMTEGA - Xunta de Galicia
   license: GPLv3 or EUPL
   min_ansible_version: 2.9
@@ -22,7 +22,6 @@ galaxy_info:
     - aide
 
 dependencies:
-
     - role: amtega.check_platform
       check_platform_distributions:
         centos: 6
