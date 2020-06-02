@@ -1,14 +1,10 @@
 # Ansible amtega.aide role
 
-This is an [Ansible](http://www.ansible.com) role which install and configure AIDE (Advanced Intrusion Detection Environment)
-## Requirements
-
-[Ansible 2.9+](http://docs.ansible.com/ansible/latest/intro_installation.html)
+This is an [Ansible](http://www.ansible.com) role to setup AIDE (Advanced Intrusion Detection Environment)
 
 ## Role Variables
 
 A list of all the default variables for this role is available in `defaults/main.yml`.
-
 
 ## Usage
 
@@ -19,7 +15,7 @@ This is an example playbook:
 
 - hosts: all
   roles:
-    - role: thisrole
+    - role: amtega.aide
       vars:
         aide_custom_rules:
           - name: FIPSR
