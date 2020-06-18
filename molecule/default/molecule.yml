@@ -4,23 +4,44 @@ dependency:
   name: galaxy
 driver:
   name: docker
-lint:
-  name: yamllint
+lint: |
+  set -e
+  export ANSIBLE_ACTION_PLUGINS=$PWD/action_plugins
+  export ANSIBLE_BECOME_PLUGINS=$PWD/become_plugins
+  export ANSIBLE_CACHE_PLUGINS=$PWD/cache_plugins
+  export ANSIBLE_CALLBACK_PLUGINS=$PWD/callback_plugins
+  export ANSIBLE_CLICONF_PLUGINS=$PWD/cliconf_plugins
+  export ANSIBLE_CONNECTION_PLUGINS=$PWD/connection_plugins
+  export ANSIBLE_DOC_FRAGMENT_PLUGINS=$PWD/doc_fragment_plugins
+  export ANSIBLE_FILTER_PLUGINS=$PWD/filter_plugins
+  export ANSIBLE_HTTPAPI_PLUGINS=$PWD/httpapi_plugins
+  export ANSIBLE_INVENTORY_PLUGINS=$PWD/inventory_plugins
+  export ANSIBLE_LIBRARY=$PWD/library
+  export ANSIBLE_LOOKUP_PLUGINS=$PWD/lookup_plugins
+  export ANSIBLE_NETCONF_PLUGINS=$PWD/netconf_plugins
+  export ANSIBLE_STRATEGY_PLUGINS=$PWD/strategy_plugins
+  export ANSIBLE_TERMINAL_PLUGINS=$PWD/terminal_plugins
+  export ANSIBLE_TEST_PLUGINS=$PWD/test_plugins
+  export ANSIBLE_VARS_PLUGINS=$PWD/vars_plugins
+  yamllint .
+  ansible-lint
+  flake8
 platforms:
-  - name: centos6
+  - name: "centos6-${INSTANCE_UUID:-1}"
     image: centos:6
     groups:
       - molecule_hosts
-  - name: centos7
+      - molecule_hosts_centos_6
+  - name: "centos7-${INSTANCE_UUID:-1}"
     image: centos:7
     groups:
       - molecule_hosts
-  - name: fedora29
+  - name: "fedora29-${INSTANCE_UUID:-1}"
     image: fedora:29
     groups:
       - molecule_hosts
       - molecule_hosts_fedora
-  - name: fedora30
+  - name: "fedora30-${INSTANCE_UUID:-1}"
     image: fedora:30
     groups:
       - molecule_hosts
@@ -28,69 +49,75 @@ platforms:
 provisioner:
   name: ansible
   inventory:
-    group_vars:
+    hosts:
       molecule_hosts:
-        aide_custom_rules:
-          - name: FIPSR
-            pattern: 'p+i+n+u+g+s+m+c+acl+selinux+xattrs+sha256'
-          - name: ALLXTRAHASHES
-            pattern: 'sha1+rmd160+sha256+sha512+tiger'
-          - name: EVERYTHING
-            pattern: 'R+ALLXTRAHASHES'
-          - name: NORMAL
-            pattern: sha256
-          - name: DIR
-            pattern: 'p+i+n+u+g+acl+selinux+xattrs'
-          - name: PERMS
-            pattern: 'p+u+g+acl+selinux+xattrs'
-          - name: STATIC
-            pattern: 'p+u+g+acl+selinux+xattrs+i+n+b+c+ftype'
-          - name: LOG
-            pattern: 'p+u+g+n+acl+selinux+ftype'
-          - name: CONTENT
-            pattern: 'sha256+ftype'
-          - name: CONTENT_EX
-            pattern: 'sha256+ftype+p+u+g+n+acl+selinux+xattrs'
-          - name: DATAONLY
-            pattern: 'p+n+u+g+s+acl+selinux+xattrs+sha256'
-        aide_acls:
-          - regexp: '/boot/'
-            rule: CONTENT_EX
-          - regexp: '/bin/'
-            rule: CONTENT_EX
-          - regexp: '/sbin/'
-            rule: CONTENT_EX
-          - regexp: '/lib/'
-            rule: CONTENT_EX
-          - regexp: '/lib64/'
-            rule: CONTENT_EX
-          - regexp: '/opt/'
-            rule: CONTENT
-          - regexp: '/proc/'
-            rule: 'absent'
-          - regexp: '/root/\..*'
-            rule: PERMS
-          - regexp: '/root/'
-            rule: CONTENT_EX
-          - regexp: '/usr/src/'
-            rule: 'absent'
-          - regexp: '/usr/tmp/'
-            rule: 'absent'
-          - regexp: '/usr/'
-            rule: CONTENT_EX
-          - regexp: '/etc/'
-            rule: CONTENT_EX
-          - regexp: '/var/log/'
-            rule: 'absent'
-          - regexp: '/var/run'
-            rule: 'absent'
-          - regexp: '/var/'
-            rule: 'absent'
+        vars:
+          aide_custom_rules:
+            - name: FIPSR
+              pattern: 'p+i+n+u+g+s+m+c+acl+selinux+xattrs+sha256'
+            - name: ALLXTRAHASHES
+              pattern: 'sha1+rmd160+sha256+sha512+tiger'
+            - name: EVERYTHING
+              pattern: 'R+ALLXTRAHASHES'
+            - name: NORMAL
+              pattern: sha256
+            - name: DIR
+              pattern: 'p+i+n+u+g+acl+selinux+xattrs'
+            - name: PERMS
+              pattern: 'p+u+g+acl+selinux+xattrs'
+            - name: STATIC
+              pattern: 'p+u+g+acl+selinux+xattrs+i+n+b+c+ftype'
+            - name: LOG
+              pattern: 'p+u+g+n+acl+selinux+ftype'
+            - name: CONTENT
+              pattern: 'sha256+ftype'
+            - name: CONTENT_EX
+              pattern: 'sha256+ftype+p+u+g+n+acl+selinux+xattrs'
+            - name: DATAONLY
+              pattern: 'p+n+u+g+s+acl+selinux+xattrs+sha256'
+          aide_acls:
+            - regexp: '/boot/'
+              rule: CONTENT_EX
+            - regexp: '/bin/'
+              rule: CONTENT_EX
+            - regexp: '/sbin/'
+              rule: CONTENT_EX
+            - regexp: '/lib/'
+              rule: CONTENT_EX
+            - regexp: '/lib64/'
+              rule: CONTENT_EX
+            - regexp: '/opt/'
+              rule: CONTENT
+            - regexp: '/proc/'
+              rule: 'absent'
+            - regexp: '/root/\..*'
+              rule: PERMS
+            - regexp: '/root/'
+              rule: CONTENT_EX
+            - regexp: '/usr/src/'
+              rule: 'absent'
+            - regexp: '/usr/tmp/'
+              rule: 'absent'
+            - regexp: '/usr/'
+              rule: CONTENT_EX
+            - regexp: '/etc/'
+              rule: CONTENT_EX
+            - regexp: '/var/log/'
+              rule: 'absent'
+            - regexp: '/var/run'
+              rule: 'absent'
+            - regexp: '/var/'
+              rule: 'absent'
+      molecule_hosts_centos_6:
+        vars:
+          aide_custom_rules:
+            - name: NORMAL
+              pattern: 'R+rmd160+sha256'
+          aide_acls:
+            - regexp: '/boot/'
+              rule: NORMAL
       molecule_hosts_fedora:
-        ansible_python_interpreter: /usr/bin/python3
-  lint:
-    name: ansible-lint
+        vars:
+          ansible_python_interpreter: /usr/bin/python3
 verifier:
-  name: testinfra
-  lint:
-    name: flake8
+  name: ansible
