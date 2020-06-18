@@ -1,24 +1,22 @@
 ---
 
-- name: Converge
+- name: Verify
   hosts: molecule_hosts
   gather_facts: no
-  roles:
-    - amtega.aide
   tasks:
     - name: Read AIDE config
-      command: "{{ aide_bin }} -D"
+      command: /usr/sbin/aide -D
       changed_when: false
       register: aide_read_config_result
 
     - name: Check read database
       stat:
-        path: "{{ aide_db_dir }}/{{ aide_db_read }}"
+        path: /var/lib/aide/aide.db.gz
       register: aide_read_database_result
 
     - name: Check cron file
       stat:
-        path: "/etc/cron.d/{{ aide_cron_file }}"
+        path: "/etc/cron.d/aide"
       register: aide_read_cron_result
 
     - name: Assert all post conditions
