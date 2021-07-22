@@ -22,17 +22,17 @@ galaxy_info:
     - aide
 
 dependencies:
-    - role: amtega.check_platform
-      check_platform_distributions:
-        centos: 6
-        fedora: 29
-        redhat: 6
+  - role: amtega.check_platform
+    check_platform_distributions:
+      centos: 6
+      fedora: 29
+      redhat: 6
 
-    - role: amtega.cron
+  - role: amtega.cron
 
-    - role: amtega.packages
-      vars:
-        packages_os:
+  - role: amtega.packages
+    vars:
+      packages_os:
+        all:
           all:
-            all:
-              aide: present
+            aide: present
