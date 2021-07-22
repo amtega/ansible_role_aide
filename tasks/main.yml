@@ -6,6 +6,7 @@
       template:
         src: aide.conf.j2
         dest: "{{ aide_conf_path }}"
+        mode: 0600
       register: aide_config_result
 
     - block:
